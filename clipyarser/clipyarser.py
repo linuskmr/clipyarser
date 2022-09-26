@@ -60,6 +60,7 @@ class Clipyarser:
         """Creates the main ArgumentParser and includes the arguments of self._main_function."""
         parser = ArgumentParser(prog=self.name, description=self.description)
         if self._main_function:
+            parser.description = self._main_function.__doc__
             Clipyarser.add_args(parser=parser, function=self._main_function)
         return parser
 
