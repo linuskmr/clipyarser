@@ -69,6 +69,7 @@ class Clipyarser:
         for function_name, function in self._subcommand_functions.items():
             # Create subparser for this function
             subparser = subparsers.add_parser(function_name)
+            subparser.description = function.__doc__
             Clipyarser.add_args(parser=subparser, function=function)
 
     @staticmethod
