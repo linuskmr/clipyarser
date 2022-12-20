@@ -7,6 +7,7 @@ Simply decorate your _normal_ python functions with `@clipyarser.main` or `@clip
 you have a fully working cli program.
 `clipyarser` parses the arguments from the console and calls the matching function with the right arguments.
 
+
 ## Features
 
 - No dependencies: Argument parsing is done with Python's [argparse](https://docs.python.org/3/library/argparse.html) module
@@ -15,6 +16,102 @@ you have a fully working cli program.
 - [Subcommands](#subcommands) with `@clipyarser.subcommand`
 - [Default arguments](#default-argumentsoptions)
 - [Easily testing](#testing), because functions `yield` instead of `print()` lines
+
+
+
+## TL;DR — Show me the code
+
+Example: Calculator with `add` and `sub` *subcommands*, and a *global* `verbose` switch.
+
+```python3
+from clipyarser import Clipyarser
+
+clipyarser = Clipyarser()
+
+verbose_output = None
+
+@clipyarser.subcommand
+def add(lhs: int, rhs: int):
+	"""Compute lhs + rhs"""
+	if verbose_output:
+		yield f"Computing {lhs} + {rhs}"
+	yield lhs + rhs
+
+@clipyarser.subcommand
+def sub(lhs: int, rhs: int = 0):
+	"""Compute lhs - rhs"""
+	if verbose_output:
+		yield f"Computing {lhs} - {rhs}"
+	yield lhs + rhs
+
+@clipyarser.main
+def main(verbose: bool = False):
+	"""Useless calculator"""
+	# main gets always called
+	# We use it for arguments used in *all* subcommands
+	global verbose_output
+	verbose_output = verbose
+
+if __name__ == '__main__':
+	clipyarser.run()
+```
+
+Help message with doc comment for `main`:
+
+```
+$ python3 cli.py --help
+usage: cli.py [-h] [--verbose VERBOSE] {add,sub} ...
+
+Useless calculator
+
+positional arguments:
+  {add,sub}
+
+optional arguments:
+  -h, --help         show this help message and exit
+  --verbose VERBOSE
+```
+
+Help message for `add`:
+
+```
+$ python3 cli.py add --help
+usage: cli.py add [-h] lhs rhs
+
+Compute lhs + rhs
+
+positional arguments:
+  lhs
+  rhs
+
+optional arguments:
+  -h, --help  show this help message and exit
+```
+
+Invoke add:
+
+```
+$ python3 cli.py add 3 4
+7
+```
+
+Invoke sub with default argument and use global `verbose` argument:
+
+```
+$ python3 cli.py --verbose True sub 5
+Computing 5 - 0
+5
+```
+
+Error handling:
+
+```
+$ python3 cli.py add
+usage: cli.py add [-h] lhs rhs
+cli.py add: error: the following arguments are required: lhs, rhs
+```
+
+
 
 ## Tutorial
 
