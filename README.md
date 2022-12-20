@@ -1,7 +1,7 @@
 # clipyarser
 
 `clipyarser` is a simple, declarative and easy-testable command line argument parser.
-Inspired by [Typer](https://github.com/tiangolo/typer).
+It's inspired by [Typer](https://github.com/tiangolo/typer).
 
 Simply decorate your _normal_ python functions with `@clipyarser.main` or `@clipyarser.subcommand` and
 you have a fully working cli program.
@@ -23,7 +23,7 @@ from clipyarser import CLI
 
 ### Create a CLI parser
 
-To create a `clipyarser` parser, simply write this to your `main.py` file.
+To create a `clipyarser` parser, simply write this into the `main.py` file.
 
 ```python
 from clipyarser import Clipyarser
@@ -39,10 +39,10 @@ def main(name: str) -> str:
     return f'Hello {name}'
 ```
 
-This function simply returns a string which says hello to a person.
+This function simply returns a string which says "hello" to a person.
 The name of the person is specified in the arguments of the function.
 
-Note that we use type hints in the function arguments.
+Note that we use **type hints** in the function arguments.
 This is necessary for `clipyarser`, because it parses the arguments from the console according to the specified types.
 So when adding an argument `age` with type `int`, `clipyarser` does the parsing and validation of an `int` for you.
 
@@ -128,7 +128,7 @@ def main(verbose: bool = False):
   return 'verbose is {verbose}'
 ```
 
-Now, when calling our application, the `main()` function always runs.
+Now, when calling our application, the `main()` function *always* runs.
 This might be handy when you have some logic or arguments that are independent of am individual subcommand, like a 
 more verbose output.
 
@@ -143,9 +143,9 @@ verbose is True
 
 ### Printing multiple lines
 
-Until now when we want to print something to the console, we just returned it.
+Until now, when we want to print something to the console, we just returned it.
 This might seem ok, but sometimes you want to print multiple lines or want to print something during a calculation.
-But simple do `print()` is not a good idea. We will se soon why.
+But simple `print()`ing is not a good idea. We will se soon [why](#testing).
 
 To print multiple lines, use the `yield` statement.
 
@@ -173,12 +173,12 @@ Linus
 42
 ```
 
-Because yield turns `main()` into a generator function, the output 'Hello' is printed immediately, but `name` takes 
+Because yield turns `main()` into a *generator function*, the output 'Hello' is printed *immediately*, but `name` takes 
 two seconds to print.
 
 Maybe one could think of another solution: Just add all things to be printed to a list and return this list at the 
 end of the function.
-This is bad, because the whole output takes two seconds to print, in particular the 'Hello' line.
+This is bad, because the whole output would take two seconds to print, in particular the 'Hello' line.
 This makes your `clipyarser` not very responsive to the end user.
 
 Ok. But why is just printing a bad idea? Testing.
@@ -186,8 +186,8 @@ Ok. But why is just printing a bad idea? Testing.
 ### Testing
 
 The advantage of CLI is simple testing.
-Functions like `main()` and `add()` are normal python functions, so you can call them like normal functions.
-They take _normal_ arguments. They return _normal_ things.
+Functions like `main()` and `add()` are *normal python functions*, so you can call them like normal functions.
+They take *normal* arguments. They return *normal* things, e.g. a generator instead of printing.
 This means that you can also test these functions like normal functions.
 
 ```python3
