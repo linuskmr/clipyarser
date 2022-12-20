@@ -7,6 +7,15 @@ Simply decorate your _normal_ python functions with `@clipyarser.main` or `@clip
 you have a fully working cli program.
 `clipyarser` parses the arguments from the console and calls the matching function with the right arguments.
 
+## Features
+
+- No dependencies: Argument parsing is done with Python's [argparse](https://docs.python.org/3/library/argparse.html) module
+- Parsing and validation based on *type hints*
+- Global arguments via `@clipyarser.main`
+- [Subcommands](#subcommands) with `@clipyarser.subcommand`
+- [Default arguments](#default-argumentsoptions)
+- [Easily testing](#testing), because functions `yield` instead of `print()` lines
+
 ## Tutorial
 
 Here we will create a small command line application with `clipyarser`.
